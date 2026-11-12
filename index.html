@@ -1187,6 +1187,7 @@ function categoryOf(q) {
 
 function renderOptions(q) {
   const box = document.getElementById("options-container");
+  if (!box) return;
   box.innerHTML = "";
   q.options.forEach((text, i) => {
     const b = document.createElement("button");
@@ -1202,6 +1203,9 @@ function renderOptions(q) {
 
 function loadQuestion() {
   const q = QUESTIONS[order[idx]];
+  if (!q) return;
+  const qt = document.getElementById("question-text");
+  if (!qt) return;
   answered = false;
   selected = null;
   document.getElementById("module-tag").textContent = categoryOf(q);
@@ -1382,10 +1386,4 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-back-results").addEventListener("click", backToResults);
   document.getElementById("btn-redo-errors").addEventListener("click", startReviewErrors);
   document.getElementById("btn-redo-errors-2").addEventListener("click", startReviewErrors);
-  document.getElementById("btn-restart").addEventListener("click", restartQuiz);
-
-  loadQuestion();
-});
-</script>
-</body>
-</html>
+  document.getElem
