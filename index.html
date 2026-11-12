@@ -1186,9 +1186,12 @@ function categoryOf(q) {
 }
 
 function renderOptions(q) {
-  const box = document.getElementById("options-container");
-  if (!box) return;
-  box.innerHTML = "";
+  const c = document.getElementById("options-container");
+  if (!c) {
+    setTimeout(() => renderOptions(q), 50);
+    return;
+  }
+  c.innerHTML = "";
   q.options.forEach((text, i) => {
     const b = document.createElement("button");
     b.type = "button";
@@ -1197,7 +1200,7 @@ function renderOptions(q) {
     b.style.borderRadius = "12px";
     b.textContent = text;
     b.addEventListener("click", () => selectOption(i));
-    box.appendChild(b);
+    c.appendChild(b);
   });
 }
 
@@ -1205,16 +1208,21 @@ function loadQuestion() {
   const q = QUESTIONS[order[idx]];
   if (!q) return;
   const qt = document.getElementById("question-text");
-  if (!qt) return;
+  const oc = document.getElementById("options-container");
+  if (!qt || !oc) {
+    setTimeout(loadQuestion, 50);
+    return;
+  }
   answered = false;
   selected = null;
   document.getElementById("module-tag").textContent = categoryOf(q);
-  document.getElementById("question-text").textContent = q.question;
+  qt.textContent = q.question;
   document.getElementById("question-number").textContent = `Questão ${idx + 1} de ${order.length}`;
   document.getElementById("progress-fill").style.width = (idx / order.length * 100) + "%";
   document.getElementById("review-mode-tag").textContent = mode === "errors" ? "Refazendo erros" : "";
-  document.getElementById("hint-box").textContent = q.hint;
-  document.getElementById("hint-box").classList.remove("open");
+  const hb = document.getElementById("hint-box");
+  hb.textContent = q.hint;
+  hb.classList.remove("open");
   document.getElementById("hint-toggle-btn").textContent = "💡 Precisa de uma dica?";
   const fb = document.getElementById("feedback-box");
   fb.className = "feedback";
@@ -1386,4 +1394,35 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-back-results").addEventListener("click", backToResults);
   document.getElementById("btn-redo-errors").addEventListener("click", startReviewErrors);
   document.getElementById("btn-redo-errors-2").addEventListener("click", startReviewErrors);
-  document.getElem
+  document.getElementById("btn-restart").addEventListener("click", restartQuiz);
+});
+
+function bootQuiz() {
+  let tentativas = 0;
+  const maxTentativas = 50;
+  function tentar() {
+    const container = document.getElementById("options-container");
+    const qtext = document.getElementById("question-text");
+    const pfill = document.getElementById("progress-fill");
+    if (container && qtext && pfill) {
+      loadQuestion();
+      return;
+    }
+    tentativas++;
+    if (tentativas < maxTentativas) setTimeout(tentar, 50);
+  }
+  tentar();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootQuiz);
+} else {
+  bootQuiz();
+}
+window.addEventListener("load", () => {
+  const c = document.getElementById("options-container");
+  if (c && c.children.length === 0) bootQuiz();
+});
+</script>
+</body>
+</html>
