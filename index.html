@@ -1028,22 +1028,42 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 
 </script>
 <style>
-:root { --accent: #0f766e; --accent-contrast: #ffffff; }
-.quiz-wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
-.hint-box { display: none; background: #fef3c7; color: #78350f; border: 1px solid #f59e0b; border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
+:root { --accent: #0f766e; --accent-contrast: #ffffff; --primary: #0f766e; --primary-light: #0d9488; --bg: #f0fdf4; --card-bg: #ffffff; --text: #1e293b; --border: #cbd5e1; --correct-bg: #dcfce7; --correct-border: #22c55e; --correct-text: #15803d; --wrong-bg: #fee2e2; --wrong-border: #ef4444; --wrong-text: #b91c1c; --hint-bg: #fef3c7; --hint-border: #f59e0b; }
+.quiz-wrap { max-width: 540px; margin: 0 auto; padding: 16px; }
+.quiz-container { max-width: 540px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,.08); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.hint-box { display: none; background: var(--hint-bg); color: #78350f; border: 1px solid var(--hint-border); border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
 .hint-box.open { display: block; }
+.hint-btn { background: transparent; border: none; color: #d97706; font-weight: 600; font-size: .85rem; text-align: left; }
 .feedback { display: none; padding: 12px; border-radius: var(--radius); font-size: .92rem; line-height: 1.45; }
 .feedback.open { display: block; }
-.feedback.ok { background: #dcfce7; color: #14532d; border: 1px solid #22c55e; }
-.feedback.bad { background: #fee2e2; color: #7f1d1d; border: 1px solid #ef4444; }
-.opt { width: 100%; text-align: left; justify-content: flex-start; white-space: normal; line-height: 1.35; min-height: 44px; }
-.opt.correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #14532d !important; }
-.opt.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
-.mod-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.mod-bar > span { display: block; height: 100%; background: var(--accent); }
-.mod-bar > span.weak { background: #7f1d1d; }
+.feedback.ok { background: var(--correct-bg); color: #14532d; border: 1px solid var(--correct-border); }
+.feedback.bad { background: var(--wrong-bg); color: #7f1d1d; border: 1px solid var(--wrong-border); }
+.opt { width: 100%; display: block; text-align: left; justify-content: flex-start; white-space: normal; overflow-wrap: break-word; word-wrap: break-word; box-sizing: border-box; height: auto; line-height: 1.4; min-height: 44px; border: 2px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: .88rem; }
+.options-container, #options-container { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+.quiz-container { max-height: none; overflow: visible; }
+.opt.correct { background: var(--correct-bg) !important; border-color: var(--correct-border) !important; color: var(--correct-text) !important; }
+.opt.wrong { background: var(--wrong-bg) !important; border-color: var(--wrong-border) !important; color: var(--wrong-text) !important; }
+.progress-box { display: flex; flex-direction: column; gap: 6px; }
+.progress-bar-bg { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+.progress-bar-fill { display: block; height: 100%; background: var(--primary-light); transition: width .3s ease; }
+.progress-stats { display: flex; justify-content: space-between; font-size: .85rem; font-weight: 600; color: #64748b; }
+.mod-bar-bg { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+.mod-bar { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+.mod-bar > span { display: block; height: 100%; background: #5eead4; }
+.mod-bar > span.weak { background: var(--primary); }
+.mod-row-head .badge { color: var(--primary); }
+.tag { background: #ccfbf1; color: #0f766e; border: 1px solid #99f6e4; }
+.question-text { color: var(--primary); font-weight: 700; }
+.action-btn { background: #0f172a; color: #fff; border-radius: 12px; padding: 14px; font-size: .95rem; font-weight: 700; width: 100%; height: auto; white-space: normal; overflow-wrap: break-word; line-height: 1.35; }
+.hint-box, .feedback-box, .feedback { white-space: normal; overflow-wrap: break-word; height: auto; }
+.rc-answer, .rc-why { white-space: normal; overflow-wrap: break-word; height: auto; line-height: 1.45; }
+.action-btn.secondary { background: #fff; border: 2px solid var(--primary); color: var(--primary); }
+.action-btn.primary-teal { background: var(--primary); color: #fff; }
+.score-circle { width: 130px; height: 130px; border-radius: 50%; background: var(--primary-light); color: #fff; font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
 .score-hero { text-align: center; padding: 24px; background: linear-gradient(160deg, #ccfbf1, #ffffff); border: 1px solid var(--border); border-radius: var(--radius); }
-.score-hero .big { font-size: 2.6rem; font-weight: 800; color: var(--accent-text); }
+.score-hero .big { font-size: 2.6rem; font-weight: 800; color: var(--primary); }
+.review-card .rc-head { color: var(--primary); }
+h1, .result-title, .review-title { color: var(--primary); }
 .review-item + .review-item { margin-top: 12px; }
 
 </style>
@@ -1054,10 +1074,8 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 <div class="row items-center gap-3">
 <div style="font-size:2.2rem;" aria-hidden="true">🔬</div>
 <div>
-<span class="eyebrow">Ciências • Sistema Anglo</span>
-<h1 class="text-xl font-bold m-0 mt-1">Desafio de Ciências</h1>
-<p class="muted text-sm m-0">6º Ano — Sistema Anglo (Módulos 25, 26, 27 e 28)</p>
-<p class="muted text-xs m-0">30 questões • 22 de conteúdo + 8 de interpretação</p>
+<h1 class="m-0" style="font-size:1.35rem;font-weight:700;">Desafio de Ciências</h1>
+<p class="m-0" style="font-size:.85rem;color:#64748b;">6º Ano — Sistema Anglo (Módulos 25, 26, 27 e 28)</p>
 </div>
 </div>
 
@@ -1066,16 +1084,16 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 <section id="quiz-screen" class="panel p-4 stack gap-3">
 <div>
 <div class="row between text-sm mb-1">
-<span class="badge" data-variant="secondary" id="module-tag">Módulo 25</span>
+<span class="badge tag" id="module-tag">Módulo 25</span>
 <span class="muted text-xs" id="score-text">Acertos: 0</span>
 </div>
-<div class="mod-bar"><span id="progress-fill" style="width:0%"></span></div>
-<div class="row between text-xs muted mt-1"><span id="question-number">Questão 1 de 30</span><span id="review-mode-tag"></span></div>
+<div class="progress-bar-bg"><span class="progress-bar-fill" id="progress-fill" style="width:0%"></span></div>
+<div class="progress-stats"><span id="question-number">Questão 1 de 30</span><span id="review-mode-tag"></span></div>
 </div>
-<h2 class="text-base font-semibold m-0" id="question-text"></h2>
+<h2 class="text-base m-0 question-text" id="question-text"></h2>
 <div class="stack gap-2" id="options-container"></div>
 <div class="stack gap-2">
-<button class="btn" data-variant="ghost" data-size="sm" id="hint-toggle-btn" onclick="toggleHint()">💡 Precisa de uma dica?</button>
+<button class="hint-btn" id="hint-toggle-btn" onclick="toggleHint()">💡 Precisa de uma dica?</button>
 <div class="hint-box" id="hint-box"></div>
 </div>
 <div class="feedback" id="feedback-box"></div>
@@ -1084,7 +1102,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 
 <section id="results-screen" class="stack gap-4" hidden>
 <div class="score-hero">
-<div class="text-xs muted uppercase">Sua pontuação</div>
+<div class="text-xs muted uppercase result-title">Sua pontuação</div>
 <div class="big" id="final-score">0%</div>
 <div class="muted text-sm" id="final-detail"></div>
 <p class="mt-2 mb-0 font-medium" id="final-message"></p>
@@ -1105,7 +1123,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 
 <section id="review-screen" class="stack gap-4" hidden>
 <div>
-<h2 class="text-lg font-bold m-0">Revisão das respostas</h2>
+<h2 class="text-lg font-bold m-0 review-title">Revisão das respostas</h2>
 <p class="muted text-sm m-0" id="review-sub"></p>
 </div>
 <div id="review-list" class="stack gap-3"></div>
@@ -1175,6 +1193,7 @@ function renderOptions(q) {
     b.type = "button";
     b.className = "btn opt";
     b.setAttribute("data-variant", "outline");
+    b.style.borderRadius = "12px";
     b.textContent = text;
     b.addEventListener("click", () => selectOption(i));
     box.appendChild(b);
@@ -1284,7 +1303,7 @@ function showResults() {
     const row = document.createElement("div");
     row.className = "stack gap-1";
     row.innerHTML = `
-      <div class="row between text-sm"><span class="font-medium">${c}${weak ? ' <span class="badge" data-variant="destructive">Pior desempenho</span>' : ""}</span><span class="mono">${s.right}/${s.total}</span></div>
+      <div class="row between text-sm mod-row-head"><span class="font-medium">${c}${weak ? ' <span class="badge">Pior desempenho</span>' : ""}</span><span class="mono">${s.right}/${s.total}</span></div>
       <div class="mod-bar"><span class="${weak ? "weak" : ""}" style="width:${Math.round(ratio * 100)}%"></span></div>`;
     box.appendChild(row);
   });
@@ -1296,77 +1315,4 @@ function showResults() {
 
 function showReview() {
   document.getElementById("results-screen").hidden = true;
-  document.getElementById("review-screen").hidden = false;
-  const errs = getErrors();
-  document.getElementById("review-sub").textContent =
-    errs.length ? `${errs.length} questão(ões) para revisar` : "Você não errou nenhuma questão.";
-  const list = document.getElementById("review-list");
-  list.innerHTML = "";
-  if (!errs.length) {
-    list.innerHTML = `<div class="panel p-4 text-sm">Nada a revisar. Excelente trabalho!</div>`;
-    return;
-  }
-  errs.forEach(qi => {
-    const q = QUESTIONS[qi];
-    const card = document.createElement("div");
-    card.className = "panel p-4 review-item";
-    card.innerHTML = `
-      <div class="text-xs muted mb-1">${categoryOf(q)}</div>
-      <p class="font-medium m-0 mb-2">${q.question}</p>
-      <div class="alert mb-2" data-variant="destructive"><div>Sua resposta: ${q.options[answerIndexFor(qi)] || "—"}</div></div>
-      <div class="alert mb-2"><div><strong>Resposta certa:</strong> ${q.options[q.correct]}</div></div>
-      <p class="text-sm m-0">${q.explanation}</p>`;
-    list.appendChild(card);
-  });
-}
-
-const chosen = {};
-function answerIndexFor(qi) { return chosen[qi] ?? 0; }
-
-function backToResults() {
-  document.getElementById("review-screen").hidden = true;
-  document.getElementById("results-screen").hidden = false;
-}
-
-function startReviewErrors() {
-  const errs = getErrors();
-  if (!errs.length) return;
-  mode = "errors";
-  order = errs;
-  idx = 0;
-  answers = {};
-  document.getElementById("results-screen").hidden = true;
-  document.getElementById("review-screen").hidden = true;
-  document.getElementById("quiz-screen").hidden = false;
-  loadQuestion();
-  window.skipUI.toast(`Refazendo ${errs.length} questão(ões) com erro`);
-}
-
-function startFullQuiz() {
-  mode = "full";
-  order = QUESTIONS.map((_, i) => i);
-  idx = 0;
-  answers = {};
-  document.getElementById("results-screen").hidden = true;
-  document.getElementById("review-screen").hidden = true;
-  document.getElementById("quiz-screen").hidden = false;
-  loadQuestion();
-}
-
-function restartQuiz() {
-  startFullQuiz();
-  window.skipUI.toast("Quiz reiniciado. Boa sorte!");
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("btn-review").addEventListener("click", showReview);
-  document.getElementById("btn-back-results").addEventListener("click", backToResults);
-  document.getElementById("btn-redo-errors").addEventListener("click", startReviewErrors);
-  document.getElementById("btn-redo-errors-2").addEventListener("click", startReviewErrors);
-  document.getElementById("btn-restart").addEventListener("click", restartQuiz);
-
-  loadQuestion();
-});
-</script>
-</body>
-</html>
+  document.getElementById("review-screen").hidden = fals
