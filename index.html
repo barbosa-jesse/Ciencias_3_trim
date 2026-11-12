@@ -1028,469 +1028,345 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 
 </script>
 <style>
-:root {
---accent: #1F4E5F;
---accent-text: #1F4E5F;
---accent-contrast: #ffffff;
---ok: #2E7D32;
---ok-bg: #E8F5E9;
---bad: #C62828;
---bad-bg: #FFEBEE;
---tip: #F9A825;
---tip-bg: #FFF8E1;
---page: #F4F7F8;
---ink: #1d2b31;
---muted: #5b6b72;
---line: #d9e2e6;
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-body { background: var(--page); color: var(--ink); margin: 0; min-height: 100vh; }
-.app { max-width: 720px; margin: 0 auto; padding: 16px; box-sizing: border-box; }
-.screen { display: none; }
-.screen.active { display: block; animation: fadeIn .3s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.card-box { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(31,78,95,.08); padding: 20px; margin-bottom: 16px; }
-.emoji-hero { font-size: 64px; text-align: center; margin: 8px 0 4px; }
-.center { text-align: center; }
-h1 { color: var(--accent); font-size: 28px; margin: 6px 0; }
-h2 { color: var(--accent); font-size: 20px; margin: 4px 0; }
-.sub { color: var(--muted); font-size: 15px; margin: 4px 0 12px; }
-.pill { display: inline-block; background: var(--ok-bg); color: var(--ok); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
-.pill-mod { background: #e3eef2; color: var(--accent); border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 600; display: inline-block; }
-.btn-big { width: 100%; min-height: 52px; font-size: 17px; font-weight: 600; border-radius: 12px; border: none; background: var(--accent); color: #fff; cursor: pointer; padding: 12px; margin-top: 8px; }
-.btn-big:hover { filter: brightness(1.08); }
-.btn-ghost { min-height: 44px; border-radius: 10px; border: 1px solid var(--accent); background: #fff; color: var(--accent); font-weight: 600; cursor: pointer; padding: 10px 14px; font-size: 15px; }
-.btn-ghost:hover { background: #eef5f7; }
-.btn-tip { min-height: 44px; border-radius: 10px; border: 1px dashed var(--tip); background: #fff; color: #7a5300; font-weight: 600; cursor: pointer; padding: 10px 14px; font-size: 15px; width: 100%; }
-.row { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
-.btns { display: flex; gap: 10px; flex-wrap: wrap; }
-.btns > * { flex: 1 1 200px; }
-.progress { height: 10px; background: #e6eef1; border-radius: 999px; overflow: hidden; margin: 8px 0 12px; }
-.progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width .35s ease; border-radius: 999px; }
-.counter { font-size: 15px; color: var(--muted); font-weight: 600; }
-.statement { font-size: 18px; line-height: 1.5; margin: 12px 0 16px; color: var(--ink); }
-.hint-box { background: var(--tip-bg); border-left: 4px solid var(--tip); border-radius: 10px; padding: 12px 14px; margin: 10px 0; color: #5d4300; font-size: 15px; display: none; }
+:root { --accent: #0f766e; --accent-contrast: #ffffff; }
+.quiz-wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
+.hint-box { display: none; background: #fef3c7; color: #78350f; border: 1px solid #f59e0b; border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
 .hint-box.open { display: block; }
-.options { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
-.opt { display: block; width: 100%; min-height: 44px; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; font-size: 16px; color: var(--ink); cursor: pointer; line-height: 1.4; box-sizing: border-box; }
-.opt:hover { border-color: var(--accent); }
-.opt.locked { pointer-events: none; }
-.opt.correct { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 600; }
-.opt.wrong { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); font-weight: 600; }
-.feedback { margin-top: 14px; padding: 14px; border-radius: 12px; display: none; font-size: 15px; line-height: 1.5; }
-.feedback.ok { background: var(--ok-bg); color: #1b5e20; display: block; }
-.feedback.bad { background: var(--bad-bg); color: #8e1b1b; display: block; }
-.feedback strong { display: block; margin-bottom: 4px; }
-.next-wrap { display: none; margin-top: 14px; }
-.next-wrap.show { display: block; }
-.score-circle { width: 170px; height: 170px; border-radius: 50%; margin: 12px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 30% 30%, #ffffff, #e6f0f3); border: 10px solid var(--accent); box-sizing: border-box; }
-.score-circle .big { font-size: 34px; font-weight: 700; color: var(--accent); }
-.score-circle .pct { font-size: 18px; color: var(--muted); font-weight: 600; }
-.mod-row { margin: 12px 0; }
-.mod-head { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 4px; }
-.mod-bar { height: 10px; background: #e6eef1; border-radius: 999px; overflow: hidden; }
-.mod-bar > div { height: 100%; background: var(--accent); border-radius: 999px; }
-.mod-bad .mod-head { color: var(--bad); font-weight: 700; }
-.mod-bad .mod-bar > div { background: var(--bad); }
-.review-item { border-top: 1px solid var(--line); padding: 16px 0; }
-.review-item:first-child { border-top: none; }
-.label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin: 8px 0 4px; }
-.lab-bad { color: var(--bad); }
-.lab-ok { color: var(--ok); }
-.ans { padding: 10px 12px; border-radius: 10px; font-size: 15px; line-height: 1.4; }
-.ans-bad { background: var(--bad-bg); color: #8e1b1b; border: 1px solid var(--bad); }
-.ans-ok { background: var(--ok-bg); color: #1b5e20; border: 1px solid var(--ok); }
-.why { background: #eef1f3; color: #3c4a50; border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.5; }
-.banner { display: none; background: #e3eef2; color: var(--accent); border-radius: 12px; padding: 10px 14px; font-weight: 600; margin-bottom: 12px; text-align: center; }
-.banner.show { display: block; }
-.empty { color: var(--muted); text-align: center; padding: 18px; }
-.foot { text-align: center; color: var(--muted); font-size: 13px; margin: 18px 0 8px; }
-.card-box { padding: 16px; margin-bottom: 12px; }
-.app { padding: 12px; }
+.feedback { display: none; padding: 12px; border-radius: var(--radius); font-size: .92rem; line-height: 1.45; }
+.feedback.open { display: block; }
+.feedback.ok { background: #dcfce7; color: #14532d; border: 1px solid #22c55e; }
+.feedback.bad { background: #fee2e2; color: #7f1d1d; border: 1px solid #ef4444; }
+.opt { width: 100%; text-align: left; justify-content: flex-start; white-space: normal; line-height: 1.35; min-height: 44px; }
+.opt.correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #14532d !important; }
+.opt.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
+.mod-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.mod-bar > span { display: block; height: 100%; background: var(--accent); }
+.mod-bar > span.weak { background: #7f1d1d; }
+.score-hero { text-align: center; padding: 24px; background: linear-gradient(160deg, #ccfbf1, #ffffff); border: 1px solid var(--border); border-radius: var(--radius); }
+.score-hero .big { font-size: 2.6rem; font-weight: 800; color: var(--accent-text); }
+.review-item + .review-item { margin-top: 12px; }
+
 </style>
 </head>
 <body>
-<div class="app">
+<div class="shell-container quiz-wrap">
+<header class="row between items-center mb-4">
+<div class="row items-center gap-3">
+<div style="font-size:2.2rem;" aria-hidden="true">🔬</div>
+<div>
+<span class="eyebrow">Ciências • Sistema Anglo</span>
+<h1 class="text-xl font-bold m-0 mt-1">Desafio de Ciências</h1>
+<p class="muted text-sm m-0">6º Ano — Sistema Anglo (Módulos 25, 26, 27 e 28)</p>
+<p class="muted text-xs m-0">30 questões • 22 de conteúdo + 8 de interpretação</p>
+</div>
+</div>
 
-<!-- TELA INICIAL -->
-<section id="screen-start" class="screen active">
-<div class="card-box center">
-<div class="emoji-hero">🔬</div>
-<span class="pill">Prova do 3º trimestre</span>
-<h1>Desafio de Ciências</h1>
-<p class="sub">6º Ano — Sistema Anglo</p>
-<p class="sub">30 questões • 22 de conteúdo + 8 de interpretação</p>
-<button class="btn-big" onclick="startQuiz()">Começar o desafio</button>
+</header>
+
+<section id="quiz-screen" class="panel p-4 stack gap-3">
+<div>
+<div class="row between text-sm mb-1">
+<span class="badge" data-variant="secondary" id="module-tag">Módulo 25</span>
+<span class="muted text-xs" id="score-text">Acertos: 0</span>
 </div>
-<div class="card-box">
-<div class="btns">
-<span class="pill-mod">Módulo 25</span>
-<span class="pill-mod">Módulo 26</span>
-<span class="pill-mod">Módulo 27</span>
-<span class="pill-mod">Módulo 28</span>
+<div class="mod-bar"><span id="progress-fill" style="width:0%"></span></div>
+<div class="row between text-xs muted mt-1"><span id="question-number">Questão 1 de 30</span><span id="review-mode-tag"></span></div>
 </div>
+<h2 class="text-base font-semibold m-0" id="question-text"></h2>
+<div class="stack gap-2" id="options-container"></div>
+<div class="stack gap-2">
+<button class="btn" data-variant="ghost" data-size="sm" id="hint-toggle-btn" onclick="toggleHint()">💡 Precisa de uma dica?</button>
+<div class="hint-box" id="hint-box"></div>
 </div>
-<div class="foot">Funciona offline · tudo fica neste aparelho</div>
+<div class="feedback" id="feedback-box"></div>
+<button class="btn w-full" id="next-btn" onclick="handleNextAction()" disabled>Próxima</button>
 </section>
 
-<!-- TELA DO QUIZ -->
-<section id="screen-quiz" class="screen">
-<div class="card-box">
-<div id="review-banner" class="banner">Modo revisão — apenas as questões que você errou</div>
-<div class="row">
-<span class="counter" id="q-counter">Questão 1 de 30</span>
-<span class="counter" id="q-score">0 acertos</span>
+<section id="results-screen" class="stack gap-4" hidden>
+<div class="score-hero">
+<div class="text-xs muted uppercase">Sua pontuação</div>
+<div class="big" id="final-score">0%</div>
+<div class="muted text-sm" id="final-detail"></div>
+<p class="mt-2 mb-0 font-medium" id="final-message"></p>
 </div>
-<div class="progress"><div class="progress-fill" id="q-progress"></div></div>
-<span class="pill-mod" id="q-module">Módulo 25 — Fundamentos da Óptica</span>
-<p class="statement" id="q-statement"></p>
-<div class="options" id="q-options"></div>
-<button class="btn-tip" onclick="toggleHint()" style="margin-top:12px;">💡 Precisa de uma dica?</button>
-<div class="hint-box" id="q-hint"></div>
-<div class="feedback" id="q-feedback"></div>
-<div class="next-wrap" id="q-next-wrap">
-<button class="btn-big" id="q-next" onclick="nextQuestion()">Próxima Questão</button>
+<div class="panel p-4 stack gap-3">
+<div>
+<h3 class="text-base font-semibold m-0">Desempenho por módulo</h3>
+<p class="muted text-xs m-0">Acertos sobre o total de questões de cada módulo; os mais fracos aparecem em destaque.</p>
 </div>
+<div class="stack gap-3" id="module-summary-box"></div>
 </div>
+<div class="row gap-2">
+<button class="btn grow" id="btn-review">Revisar respostas</button>
+<button class="btn grow" data-variant="outline" id="btn-redo-errors">Refazer só os erros</button>
+</div>
+<button class="btn" data-variant="secondary" id="btn-restart">Refazer o quiz completo</button>
 </section>
 
-<!-- TELA FINAL -->
-<section id="screen-result" class="screen">
-<div class="card-box center">
-<div class="emoji-hero">🎉</div>
-<h1>Desafio Concluído!</h1>
-<p class="sub">Você respondeu a todas as questões!</p>
-<div class="score-circle">
-<div class="big" id="r-score">0/30</div>
-<div class="pct" id="r-pct">0%</div>
+<section id="review-screen" class="stack gap-4" hidden>
+<div>
+<h2 class="text-lg font-bold m-0">Revisão das respostas</h2>
+<p class="muted text-sm m-0" id="review-sub"></p>
 </div>
-
-<p id="r-message" style="font-weight:600; color: var(--accent);"></p>
-</div>
-<div class="card-box">
-<h2>Resumo por módulo</h2>
-
-<div id="r-modules"></div>
-</div>
-<div class="card-box">
-<div class="btns">
-<button class="btn-big" onclick="showReview()">📋 Revisar meus erros</button>
-<button class="btn-big" onclick="retryWrong()">🔁 Refazer só os erros</button>
-</div>
-<div class="btns" style="margin-top:10px;">
-<button class="btn-ghost" onclick="restartFull()">Voltar ao quiz completo</button>
-<button class="btn-ghost" onclick="resetQuiz()">🔄 Reiniciar Quiz</button>
-<button class="btn-ghost" onclick="copyResult()">📋 Copiar resultado</button>
-</div>
+<div id="review-list" class="stack gap-3"></div>
+<div class="row gap-2">
+<button class="btn grow" data-variant="outline" id="btn-back-results">Voltar ao resultado</button>
+<button class="btn grow" id="btn-redo-errors-2">Refazer só os erros</button>
 </div>
 </section>
+</div>
 
-<!-- TELA DE REVISÃO -->
-<section id="screen-review" class="screen">
-<div class="card-box">
-<h1>Revisão dos seus erros</h1>
-<p class="sub" id="rv-sub">Lista apenas as questões erradas, na ordem original.</p>
-<div id="rv-list"></div>
-</div>
-<div class="card-box">
-<div class="btns">
-<button class="btn-big" onclick="retryWrong()">🔁 Refazer só os erros</button>
-<button class="btn-ghost" onclick="backToResult()">← Voltar ao resultado</button>
-</div>
-</div>
-</section>
-
-<footer class="foot">Desafio de Ciências · 6º Ano · Sistema Anglo · Prof. Djalma</footer>
-</div>
+<footer class="shell-footer text-center muted text-xs p-4">Desafio de Ciências • 6º Ano • Sistema Anglo</footer>
 
 <script>
-var QUESTIONS = [
-{ module: 25, part: 1, question: "Uma estrela muito distante, vista da Terra, é classificada como fonte de luz pontual porque:", options: ["a) Emite luz própria e por isso pode ser representada por um ponto.", "b) Seu tamanho é pequeno em relação à distância do observador.", "c) Reflete a luz de outras estrelas próximas.", "d) Sua luz chega aos nossos olhos sem sofrer nenhuma alteração."], correct: 1, hint: "A classificação pontual ou extensa não depende de a fonte ter luz própria. Pense no que muda quando a fonte está muito longe.", explanation: "Pontual e extensa é uma questão de proporção entre o tamanho da fonte e a distância do observador. A alternativa a) confunde com a classificação primária, que trata de ter luz própria." },
-{ module: 25, part: 1, question: "Uma folha verde iluminada pela luz solar branca aparece verde para nós porque:", options: ["a) A folha absorve todas as cores da luz branca e reflete apenas o verde.", "b) A folha refrata a luz verde e absorve as demais cores.", "c) A folha emite luz verde própria, como uma fonte primária.", "d) A folha reflete todas as cores e absorve apenas o verde."], correct: 0, hint: "A cor que você vê é a cor que chega aos seus olhos. Se chega verde, o que aconteceu com as outras cores?", explanation: "A absorção retira algumas cores e devolve outras. A folha absorve quase tudo e reflete o verde. A alternativa d) inverte os papéis: se absorvesse só o verde, veríamos as outras cores." },
-{ module: 25, part: 1, question: "O ar limpo e o vidro fosco são classificados, respectivamente, como meios ópticos:", options: ["a) Translúcido e transparente.", "b) Transparente e opaco.", "c) Transparente e translúcido.", "d) Opaco e translúcido."], correct: 2, hint: "Nos dois meios a luz passa. A diferença está em conseguir ou não ver a fonte com nitidez.", explanation: "No ar limpo a luz passa de forma regular e vemos com nitidez: transparente. No vidro fosco a luz passa espalhada, sem nitidez: translúcido. Opaco é o meio em que a luz não se propaga." },
-{ module: 25, part: 2, question: "Leia o trecho: 'Numa sala escura, uma pessoa aponta um laser para a parede. O ponto de luz aparece na parede, mas o caminho do laser no ar não é visto. Quando alguém borrifa água na sala, o trajeto do laser passa a ser visível.' Isso acontece porque:", options: ["a) A água tornou o ar um meio opaco, impedindo a passagem da luz.", "b) As gotículas suspensas refletem a luz em várias direções, funcionando como pequenos espelhos.", "c) O laser deixou de ser monocromático ao encontrar a água.", "d) A luz só se propaga em linha reta quando existem partículas no ar."], correct: 1, hint: "Não enxergamos a luz, enxergamos o que ela ilumina. O que a água acrescentou ao ar?", explanation: "As partículas suspensas espalham a luz e cada uma funciona como um pequeno espelho, tornando o trajeto visível. A alternativa d) inverte a regra: a propagação retilínea vale justamente em meios homogêneos e transparentes." },
-{ module: 25, part: 1, question: "Quando a luz passa do ar para a água e muda de velocidade, dizemos que ocorreu:", options: ["a) Reflexão difusa.", "b) Dispersão.", "c) Absorção.", "d) Refração."], correct: 3, hint: "O nome do fenômeno está ligado à mudança de meio e à mudança de velocidade.", explanation: "Refração é a mudança de velocidade ao atravessar a fronteira entre dois meios. Dispersão também envolve refração, mas só acontece com luz policromática, que se abre em cores." },
-{ module: 25, part: 1, question: "Uma superfície rugosa, como uma parede de tijolos, iluminada por uma lanterna, permite que a parede seja vista de qualquer posição da sala. Isso ocorre porque nela acontece:", options: ["a) Reflexão especular, que forma a imagem da lanterna.", "b) Reflexão difusa, que espalha a luz em várias direções.", "c) Refração, que desvia a luz para dentro da parede.", "d) Absorção total, que impede qualquer luz de retornar."], correct: 1, hint: "Se a parede formasse imagem como um espelho, você veria a lanterna refletida. Você vê a parede iluminada. Qual é a diferença?", explanation: "A reflexão difusa espalha a luz e não forma imagem, mas é o que permite ver o objeto de qualquer ângulo. A reflexão especular forma imagem, o que não acontece numa parede rugosa." },
-{ module: 25, part: 2, question: "Leia o trecho: 'Ao meio-dia, num dia de sol, é possível ver faixas de luz entrando pelas janelas de uma estação de trem e atravessando o salão em linha reta, destacadas pela poeira no ar.' O princípio da Óptica geométrica evidenciado nessa cena é o da:", options: ["a) Reversibilidade dos raios de luz.", "b) Independência dos raios de luz.", "c) Propagação retilínea dos raios de luz.", "d) Conservação da energia luminosa."], correct: 2, hint: "Observe o formato do caminho da luz na cena: o que ele desenha no espaço?", explanation: "A luz desenha uma trajetória reta em meio homogêneo, o que caracteriza a propagação retilínea. A reversibilidade trata do sentido invertido do caminho, não do formato dele." },
-{ module: 25, part: 1, question: "As fontes de luz monocromáticas se diferenciam das policromáticas porque:", options: ["a) Emitem luz de apenas uma cor, como o laser.", "b) Emitem luz branca, composta por todas as cores.", "c) Não precisam de um meio material para se propagar.", "d) Só podem ser vistas em ambientes completamente escuros."], correct: 0, hint: "O prefixo 'mono' significa um. Pense no que isso diz sobre as cores emitidas.", explanation: "Monocromática significa uma só cor, como o laser verde. Policromática é a mistura de cores, como a luz do Sol, que o sistema visual interpreta como branca." },
-
-{ module: 26, part: 1, question: "Uma lente de vidro cujas bordas são mais finas que o centro, imersa no ar, apresenta comportamento:", options: ["a) Divergente, pois espalha os raios.", "b) Convergente, pois junta os raios num ponto.", "c) Opaco, pois bloqueia a passagem da luz.", "d) Refletor, pois devolve a luz como um espelho."], correct: 1, hint: "Bordas finas e centro espesso: para onde a luz é desviada? Pense no formato de uma lupa.", explanation: "Lentes de bordas finas, no ar, são convergentes e juntam os raios paralelos no foco. Bordas grossas é que são divergentes." },
-{ module: 26, part: 1, question: "Na miopia, a imagem de um objeto distante se forma:", options: ["a) Exatamente sobre a retina, mas invertida.", "b) Depois da retina, porque o olho é curto.", "c) Antes da retina, porque o olho é alongado ou muito convergente.", "d) Sobre a córnea, porque ela perdeu a curvatura."], correct: 2, hint: "O olho míope converge demais. Se converge demais, a luz se encontra antes ou depois do alvo?", explanation: "Na miopia o olho é alongado ou convergente demais, então a imagem se forma antes da retina, e a correção é com lente divergente. Formar depois da retina é o caso da hipermetropia." },
-{ module: 26, part: 1, question: "A acomodação visual, quando olhamos um objeto próximo, acontece porque:", options: ["a) A musculatura ciliar se contrai e torna o cristalino mais abaulado e convergente.", "b) A córnea se enrijece e passa a ter formato ovalado.", "c) O globo ocular diminui de tamanho instantaneamente.", "d) O cristalino fica mais plano e menos convergente."], correct: 0, hint: "Para perto, a luz chega divergente e precisa de mais convergência. O que o olho faz para aumentar essa convergência?", explanation: "Para perto, o músculo ciliar se contrai, o cristalino fica mais curvo e converge mais. Deixar o cristalino mais plano é o que acontece ao olhar para longe." },
-{ module: 26, part: 2, question: "Leia o trecho: 'Para transformar o celular em microscópio, basta colocar uma gota de água sobre a lente da câmera e virar o aparelho. A gota funciona como uma lente e amplia detalhes da flor.' No ar, essa gota tem o mesmo comportamento das lentes usadas para corrigir:", options: ["a) Miopia.", "b) Astigmatismo.", "c) Hipermetropia.", "d) Presbiopia."], correct: 2, hint: "A gota amplia a imagem de um objeto próximo, como uma lupa. Qual ametropia é corrigida por uma lente que amplia?", explanation: "A gota se comporta como lente convergente de bordas finas, que amplia objetos próximos. Lentes convergentes corrigem hipermetropia e presbiopia; a miopia usa divergentes." },
-{ module: 26, part: 1, question: "O astigmatismo é causado principalmente por:", options: ["a) Alongamento do globo ocular ao longo da vida.", "b) Enrijecimento do cristalino após os 40 anos.", "c) Irregularidade na curvatura da córnea, que fica ovalada.", "d) Falta de luz suficiente no ambiente de leitura."], correct: 2, hint: "Pense em qual parte do olho tem a curvatura irregular nessa ametropia.", explanation: "No astigmatismo a córnea é ovalada em vez de esférica, e os raios não chegam todos ao mesmo ponto. A correção é feita com lentes cilíndricas." },
-{ module: 26, part: 1, question: "Uma lente divergente, ao ser usada para observar um objeto próximo, produz uma imagem:", options: ["a) Maior e invertida.", "b) Menor e direita.", "c) Maior e direita.", "d) Do mesmo tamanho e invertida."], correct: 1, hint: "Lentes divergentes nunca projetam imagem em papel. Isso já diz algo sobre o tipo de imagem que formam.", explanation: "A lente divergente forma sempre imagem menor e direita, em qualquer distância. A imagem maior e direita é típica da convergente usada como lupa." },
-{ module: 26, part: 2, question: "Leia o trecho: 'Um estudante observou uma libélula com duas lentes do laboratório. Com a lente A, a imagem ficou menor que o inseto. Com a lente B, a imagem ficou ampliada.' As lentes A e B são, respectivamente:", options: ["a) Convergente e divergente.", "b) Divergente e convergente.", "c) Ambas convergentes.", "d) Ambas divergentes."], correct: 1, hint: "Qual das duas lentes está funcionando como lupa? Lupa é sempre convergente.", explanation: "A lente que diminui a imagem é divergente; a que amplia é convergente. A alternativa a) inverte a associação." },
-{ module: 26, part: 1, question: "A presbiopia é conhecida como 'vista cansada' e se manifesta geralmente após os 40 anos porque:", options: ["a) O olho se alonga e a pessoa deixa de ver de longe.", "b) O cristalino perde flexibilidade e a musculatura ciliar enfraquece.", "c) A córnea fica completamente reta e opaca.", "d) A retina perde a capacidade de formar imagens coloridas."], correct: 1, hint: "O problema está na capacidade de ajustar o foco, não no formato do olho.", explanation: "A presbiopia vem do enrijecimento do cristalino e da perda de força da musculatura ciliar, reduzindo a acomodação. Alongamento do olho é a causa da miopia." },
-
-{ module: 27, part: 1, question: "Durante um eclipse lunar, a sombra que a Terra projeta na Lua é sempre circular. Essa observação sugere que a Terra é esférica porque:", options: ["a) Qualquer objeto, de qualquer formato, projeta sombra circular.", "b) A esfera é o único corpo que projeta sombra circular em qualquer posição.", "c) A Lua só pode receber sombras de corpos maiores que ela.", "d) A sombra circular prova que a Terra está em movimento."], correct: 1, hint: "Um disco também projeta sombra circular, mas só numa posição. O que a esfera tem de diferente?", explanation: "A esfera projeta sombra circular em qualquer posição, e é isso que a observação constante do eclipse lunar revela. A alternativa a) é falsa: um cubo projeta sombra quadrada." },
-{ module: 27, part: 1, question: "No experimento de Eratóstenes, ao meio-dia do solstício de verão, o poço de Siena ficava totalmente iluminado e as colunas de Alexandria projetavam sombra. Isso acontece porque:", options: ["a) A Terra é plana e o Sol estava mais próximo de Siena.", "b) A superfície da Terra é curva, então os raios incidem perpendicularmente em Siena e inclinados em Alexandria.", "c) As colunas de Alexandria eram feitas de material transparente.", "d) A água do poço funcionava como espelho e refletia toda a luz."], correct: 1, hint: "Se a Terra fosse plana e os raios fossem paralelos, a mesma cena seria vista nas duas cidades. A diferença revela o quê?", explanation: "A curvatura faz os raios paralelos do Sol atingirem as duas cidades com inclinações diferentes. É justamente essa diferença que permitiu calcular a circunferência." },
-{ module: 27, part: 2, question: "Leia o trecho: 'Quando um navio se afasta do porto, ele desaparece aos poucos: primeiro o casco, depois o corpo e por último o mastro. Se a Terra fosse plana, ele apenas ficaria menor, inteiro.' Essa observação é uma evidência da:", options: ["a) Refração da luz na atmosfera.", "b) Esfericidade da Terra.", "c) Rotação da Terra.", "d) Translação da Terra."], correct: 1, hint: "O navio não encolhe por inteiro: ele é escondido por algo. O que pode esconder a parte de baixo de um objeto?", explanation: "O casco é ocultado pela curvatura do planeta, o que evidencia a esfericidade. Refração na atmosfera poderia distorcer a imagem, mas não esconderia o casco primeiro." },
-{ module: 27, part: 1, question: "A primeira fotografia do planeta inteiro, tirada pela Apollo 17, foi obtida em:", options: ["a) 1492, na viagem de Colombo.", "b) 1519, na circum-navegação de Magalhães.", "c) 1862, com a escala de Snellen.", "d) 1972, pela equipe da Apollo 17."], correct: 3, hint: "Fotografar o planeta inteiro só foi possível depois de sair da atmosfera. Pense em que século isso aconteceu.", explanation: "A foto foi tirada em 7 de dezembro de 1972. As datas de 1492 e 1519 são das navegações, e 1862 é da escala optométrica de Snellen." },
-{ module: 27, part: 1, question: "A forma da Terra é chamada de geoide porque:", options: ["a) É uma esfera perfeita, sem nenhuma irregularidade.", "b) É quase esférica, levemente achatada nos polos e com irregularidades.", "c) Tem formato de elipse, como a órbita que descreve.", "d) É plana nas regiões polares e curva no equador."], correct: 1, hint: "Geoide não é o mesmo que esfera perfeita. A palavra indica algo parecido com a forma da Terra, mas não exato.", explanation: "Geoide é quase esférico, achatado nos polos e com irregularidades na superfície. Esfera perfeita é uma simplificação usada no estudo inicial." },
-{ module: 27, part: 2, question: "Leia o trecho: 'Aragorn conta que viajou até regiões distantes, onde as estrelas são estranhas, diferentes das que ele conhecia.' Essa fala sugere que o mundo de Tolkien é esférico porque:", options: ["a) Em um mundo plano, o céu seria sempre igual em qualquer lugar.", "b) As estrelas só podem ser vistas em planetas esféricos.", "c) A mudança do céu prova que o mundo gira em torno do Sol.", "d) Em mundos esféricos as estrelas ficam mais próximas do observador."], correct: 0, hint: "Se o chão fosse plano, o que você veria ao caminhar para longe? O céu mudaria?", explanation: "A curvatura impede ver o mesmo céu de pontos distantes, e é isso que explica as estrelas diferentes. A mudança do céu não diz nada sobre girar em torno do Sol." },
-{ module: 27, part: 1, question: "Os primeiros pensadores a propor e consolidar a ideia da esfericidade da Terra, na Grécia Antiga, foram:", options: ["a) Ptolomeu e Copérnico.", "b) Newton e Galileu.", "c) Pitágoras, Platão e Aristóteles.", "d) Eratóstenes e Strabo."], correct: 2, hint: "Um deles propôs a teoria das esferas no século VI a.C.; os outros dois consolidaram a ideia no século IV a.C.", explanation: "Pitágoras propôs a teoria das esferas e Platão e Aristóteles a consolidaram. Eratóstenes e Strabo vieram depois, já com a ideia aceita, e contribuíram com medições e observações." },
-
-{ module: 28, part: 1, question: "A causa principal das estações do ano na Terra é:", options: ["a) A variação da distância entre a Terra e o Sol ao longo do ano.", "b) A inclinação do eixo da Terra combinada ao movimento de translação.", "c) A variação da quantidade de energia emitida pelo Sol a cada mês.", "d) O movimento de rotação da Terra em torno do próprio eixo."], correct: 1, hint: "Se a distância fosse a causa, os dois hemisférios teriam a mesma estação ao mesmo tempo. Isso nunca acontece.", explanation: "A inclinação do eixo faz cada hemisfério receber insolação diferente ao longo da translação. A distância varia pouco e não explica estações opostas nos hemisférios." },
-{ module: 28, part: 1, question: "O movimento aparente do Sol, que parece nascer no Leste e se pôr no Oeste, é consequência da rotação da Terra no sentido:", options: ["a) De Leste para Oeste.", "b) De Oeste para Leste.", "c) Do Polo Norte para o Polo Sul.", "d) Do Polo Sul para o Polo Norte."], correct: 1, hint: "O Sol parece ir de leste para oeste. Se a Terra girasse no mesmo sentido, o Sol pareceria ir para onde?", explanation: "A Terra gira de oeste para leste, e por isso o Sol parece percorrer o céu no sentido contrário. A alternativa a) descreve o movimento aparente, não o real." },
-{ module: 28, part: 2, question: "Leia o trecho: 'Uma pessoa sentada em um trem que se move a 50 km/h observa pela janela as árvores passando rapidamente.' Sobre essa situação, é correto afirmar que a pessoa está em repouso em relação:", options: ["a) Às árvores do lado de fora.", "b) Aos trilhos sob o trem.", "c) Ao chão do vagão onde está sentada.", "d) À estação que ficou para trás."], correct: 2, hint: "Repouso significa não mudar de posição em relação ao referencial escolhido. Em relação a qual dessas coisas a pessoa não se desloca?", explanation: "Em relação ao chão do vagão a pessoa não muda de posição, então está em repouso. Em relação às árvores, aos trilhos e à estação, ela se move a 50 km/h." },
-{ module: 28, part: 1, question: "O ano bissexto existe porque:", options: ["a) A rotação da Terra dura 25 horas nos anos pares.", "b) A translação dura cerca de 365 dias e 6 horas, e as 6 horas somam um dia a cada 4 anos.", "c) A Lua leva 366 dias para dar uma volta completa na Terra.", "d) A Terra fica mais distante do Sol no afélio."], correct: 1, hint: "Some as horas que sobram em quatro anos. Quanto dá?", explanation: "As 6 horas excedentes somam 24 horas em 4 anos, acrescentadas como 29 de fevereiro. A rotação tem duração fixa de cerca de 24 horas." },
-{ module: 28, part: 1, question: "Quando é verão no Hemisfério Sul, no Hemisfério Norte é:", options: ["a) Verão também, pois a Terra toda recebe mais luz.", "b) Inverno, porque os hemisférios recebem insolação diferente.", "c) Outono, porque as estações são sempre deslocadas em uma.", "d) Primavera, porque o eixo muda de inclinação a cada estação."], correct: 1, hint: "As estações são opostas entre os hemisférios. Se um está inclinado para o Sol, o outro está como?", explanation: "Quando um hemisfério está inclinado em direção ao Sol, o outro está inclinado para longe, então as estações são opostas. O eixo não muda de inclinação ao longo do ano." },
-{ module: 28, part: 2, question: "Leia o trecho: 'Em janeiro, a Terra está mais próxima do Sol, e é verão no Hemisfério Sul. Em julho, está mais distante, e é inverno no Hemisfério Sul.' Apesar disso, os cientistas afirmam que a distância não causa as estações porque:", options: ["a) No mesmo momento, o Hemisfério Norte vive a estação oposta, o que a distância não explicaria.", "b) A órbita da Terra é um círculo perfeito, sem afélio nem periélio.", "c) O Sol emite mais energia quando a Terra está mais longe.", "d) A atmosfera impede que a distância influencie a temperatura."], correct: 0, hint: "Se a distância fosse a causa, os dois hemisférios teriam a mesma estação ao mesmo tempo. Observe o que acontece de fato.", explanation: "A distância é a mesma para os dois hemisférios, mas as estações são opostas. Isso mostra que a causa é a inclinação do eixo, não a distância." },
-{ module: 28, part: 1, question: "O modelo que colocava a Terra imóvel no centro do Universo, com os astros girando ao seu redor, foi formalizado por:", options: ["a) Copérnico, no modelo heliocêntrico.", "b) Ptolomeu, no modelo geocêntrico.", "c) Newton, na lei da gravitação.", "d) Eratóstenes, no cálculo da circunferência."], correct: 1, hint: "O nome do modelo vem do grego 'geo', que significa Terra.", explanation: "O geocentrismo foi formalizado por Ptolomeu no século II. Copérnico propôs o heliocentrismo, com o Sol no centro, em 1543." }
+const QUESTIONS = [
+{module:"Módulo 25",part:1,question:"Uma estrela muito distante, vista da Terra, é classificada como fonte de luz pontual porque:",options:["a) Emite luz própria e por isso pode ser representada por um ponto","b) Seu tamanho é pequeno em relação à distância do observador","c) Reflete a luz de outras estrelas próximas","d) Sua luz chega aos nossos olhos sem sofrer nenhuma alteração"],correct:1,hint:"A classificação pontual ou extensa não depende de ter luz própria. Pense no que muda quando a fonte está muito longe.",explanation:"Pontual e extensa é uma questão de proporção entre o tamanho da fonte e a distância do observador. A alternativa a) confunde com a classificação primária, que trata de ter luz própria."},
+{module:"Módulo 25",part:1,question:"Uma folha verde iluminada pela luz solar branca aparece verde para nós porque:",options:["a) A folha absorve todas as cores da luz branca e reflete apenas o verde","b) A folha refrata a luz verde e absorve as demais cores","c) A folha emite luz verde própria, como uma fonte primária","d) A folha reflete todas as cores e absorve apenas o verde"],correct:0,hint:"A cor que você vê é a cor que chega aos seus olhos. Se chega verde, o que aconteceu com as outras cores?",explanation:"A absorção retira algumas cores e devolve outras. A folha absorve quase tudo e reflete o verde. A alternativa d) inverte os papéis: se absorvesse só o verde, veríamos as outras cores."},
+{module:"Módulo 25",part:1,question:"O ar limpo e o vidro fosco são classificados, respectivamente, como meios ópticos:",options:["a) Translúcido e transparente","b) Transparente e opaco","c) Transparente e translúcido","d) Opaco e translúcido"],correct:2,hint:"Nos dois meios a luz passa. A diferença está em conseguir ou não ver a fonte com nitidez.",explanation:"No ar limpo a luz passa de forma regular e vemos com nitidez: transparente. No vidro fosco a luz passa espalhada, sem nitidez: translúcido. Opaco é o meio em que a luz não se propaga."},
+{module:"Módulo 25",part:2,question:"Leia o trecho: 'Numa sala escura, uma pessoa aponta um laser para a parede. O ponto de luz aparece na parede, mas o caminho do laser no ar não é visto. Quando alguém borrifa água na sala, o trajeto do laser passa a ser visível.' Isso acontece porque:",options:["a) A água tornou o ar um meio opaco, impedindo a passagem da luz","b) As gotículas suspensas refletem a luz em várias direções, funcionando como pequenos espelhos","c) O laser deixou de ser monocromático ao encontrar a água","d) A luz só se propaga em linha reta quando existem partículas no ar"],correct:1,hint:"Não enxergamos a luz, enxergamos o que ela ilumina. O que a água acrescentou ao ar?",explanation:"As partículas suspensas espalham a luz e cada uma funciona como um pequeno espelho, tornando o trajeto visível. A alternativa d) inverte a regra: a propagação retilínea vale justamente em meios homogêneos e transparentes."},
+{module:"Módulo 25",part:1,question:"Quando a luz passa do ar para a água e muda de velocidade, dizemos que ocorreu:",options:["a) Reflexão difusa","b) Dispersão","c) Absorção","d) Refração"],correct:3,hint:"O nome do fenômeno está ligado à mudança de meio e à mudança de velocidade.",explanation:"Refração é a mudança de velocidade ao atravessar a fronteira entre dois meios. Dispersão também envolve refração, mas só acontece com luz policromática, que se abre em cores."},
+{module:"Módulo 25",part:1,question:"Uma superfície rugosa, como uma parede de tijolos, iluminada por uma lanterna, permite que a parede seja vista de qualquer posição da sala. Isso ocorre porque nela acontece:",options:["a) Reflexão especular, que forma a imagem da lanterna","b) Reflexão difusa, que espalha a luz em várias direções","c) Refração, que desvia a luz para dentro da parede","d) Absorção total, que impede qualquer luz de retornar"],correct:1,hint:"Se a parede formasse imagem como um espelho, você veria a lanterna refletida. Você vê a parede iluminada. Qual é a diferença?",explanation:"A reflexão difusa espalha a luz e não forma imagem, mas é o que permite ver o objeto de qualquer ângulo. A reflexão especular forma imagem, o que não acontece numa parede rugosa."},
+{module:"Módulo 25",part:2,question:"Leia o trecho: 'Ao meio-dia, num dia de sol, é possível ver faixas de luz entrando pelas janelas de uma estação de trem e atravessando o salão em linha reta, destacadas pela poeira no ar.' O princípio da Óptica geométrica evidenciado nessa cena é o da:",options:["a) Reversibilidade dos raios de luz","b) Independência dos raios de luz","c) Propagação retilínea dos raios de luz","d) Conservação da energia luminosa"],correct:2,hint:"Observe o formato do caminho da luz na cena: o que ele desenha no espaço?",explanation:"A luz desenha uma trajetória reta em meio homogêneo, o que caracteriza a propagação retilínea. A reversibilidade trata do sentido invertido do caminho, não do formato dele."},
+{module:"Módulo 25",part:1,question:"As fontes de luz monocromáticas se diferenciam das policromáticas porque:",options:["a) Emitem luz de apenas uma cor, como o laser","b) Emitem luz branca, composta por todas as cores","c) Não precisam de um meio material para se propagar","d) Só podem ser vistas em ambientes completamente escuros"],correct:0,hint:"O prefixo 'mono' significa um. Pense no que isso diz sobre as cores emitidas.",explanation:"Monocromática significa uma só cor, como o laser verde. Policromática é a mistura de cores, como a luz do Sol, que o sistema visual interpreta como branca."},
+{module:"Módulo 26",part:1,question:"Uma lente de vidro cujas bordas são mais finas que o centro, imersa no ar, apresenta comportamento:",options:["a) Divergente, pois espalha os raios","b) Convergente, pois junta os raios num ponto","c) Opaco, pois bloqueia a passagem da luz","d) Refletor, pois devolve a luz como um espelho"],correct:1,hint:"Bordas finas e centro espesso: para onde a luz é desviada? Pense no formato de uma lupa.",explanation:"Lentes de bordas finas, no ar, são convergentes e juntam os raios paralelos no foco. Bordas grossas é que são divergentes."},
+{module:"Módulo 26",part:1,question:"Na miopia, a imagem de um objeto distante se forma:",options:["a) Exatamente sobre a retina, mas invertida","b) Depois da retina, porque o olho é curto","c) Antes da retina, porque o olho é alongado ou muito convergente","d) Sobre a córnea, porque ela perdeu a curvatura"],correct:2,hint:"O olho míope converge demais. Se converge demais, a luz se encontra antes ou depois do alvo?",explanation:"Na miopia o olho é alongado ou convergente demais, então a imagem se forma antes da retina, e a correção é com lente divergente. Formar depois da retina é o caso da hipermetropia."},
+{module:"Módulo 26",part:1,question:"A acomodação visual, quando olhamos um objeto próximo, acontece porque:",options:["a) A musculatura ciliar se contrai e torna o cristalino mais abaulado e convergente","b) A córnea se enrijece e passa a ter formato ovalado","c) O globo ocular diminui de tamanho instantaneamente","d) O cristalino fica mais plano e menos convergente"],correct:0,hint:"Para perto, a luz chega divergente e precisa de mais convergência. O que o olho faz para aumentar essa convergência?",explanation:"Para perto, o músculo ciliar se contrai, o cristalino fica mais curvo e converge mais. Deixar o cristalino mais plano é o que acontece ao olhar para longe."},
+{module:"Módulo 26",part:2,question:"Leia o trecho: 'Para transformar o celular em microscópio, basta colocar uma gota de água sobre a lente da câmera e virar o aparelho. A gota funciona como uma lente e amplia detalhes da flor.' No ar, essa gota tem o mesmo comportamento das lentes usadas para corrigir:",options:["a) Miopia","b) Astigmatismo","c) Hipermetropia","d) Presbiopia"],correct:2,hint:"A gota amplia a imagem de um objeto próximo, como uma lupa. Qual ametropia é corrigida por uma lente que amplia?",explanation:"A gota se comporta como lente convergente de bordas finas, que amplia objetos próximos. Lentes convergentes corrigem hipermetropia e presbiopia; a miopia usa divergentes."},
+{module:"Módulo 26",part:1,question:"O astigmatismo é causado principalmente por:",options:["a) Alongamento do globo ocular ao longo da vida","b) Enrijecimento do cristalino após os 40 anos","c) Irregularidade na curvatura da córnea, que fica ovalada","d) Falta de luz suficiente no ambiente de leitura"],correct:2,hint:"Pense em qual parte do olho tem a curvatura irregular nessa ametropia.",explanation:"No astigmatismo a córnea é ovalada em vez de esférica, e os raios não chegam todos ao mesmo ponto. A correção é feita com lentes cilíndricas."},
+{module:"Módulo 26",part:1,question:"Uma lente divergente, ao ser usada para observar um objeto próximo, produz uma imagem:",options:["a) Maior e invertida","b) Menor e direita","c) Maior e direita","d) Do mesmo tamanho e invertida"],correct:1,hint:"Lentes divergentes nunca projetam imagem em papel. Isso já diz algo sobre o tipo de imagem que formam.",explanation:"A lente divergente forma sempre imagem menor e direita, em qualquer distância. A imagem maior e direita é típica da convergente usada como lupa."},
+{module:"Módulo 26",part:2,question:"Leia o trecho: 'Um estudante observou uma libélula com duas lentes do laboratório. Com a lente A, a imagem ficou menor que o inseto. Com a lente B, a imagem ficou ampliada.' As lentes A e B são, respectivamente:",options:["a) Convergente e divergente","b) Divergente e convergente","c) Ambas convergentes","d) Ambas divergentes"],correct:1,hint:"Qual das duas lentes está funcionando como lupa? Lupa é sempre convergente.",explanation:"A lente que diminui a imagem é divergente; a que amplia é convergente. A alternativa a) inverte a associação."},
+{module:"Módulo 26",part:1,question:"A presbiopia é conhecida como 'vista cansada' e se manifesta geralmente após os 40 anos porque:",options:["a) O olho se alonga e a pessoa deixa de ver de longe","b) O cristalino perde flexibilidade e a musculatura ciliar enfraquece","c) A córnea fica completamente reta e opaca","d) A retina perde a capacidade de formar imagens coloridas"],correct:1,hint:"O problema está na capacidade de ajustar o foco, não no formato do olho.",explanation:"A presbiopia vem do enrijecimento do cristalino e da perda de força da musculatura ciliar, reduzindo a acomodação. Alongamento do olho é a causa da miopia."},
+{module:"Módulo 27",part:1,question:"Durante um eclipse lunar, a sombra que a Terra projeta na Lua é sempre circular. Essa observação sugere que a Terra é esférica porque:",options:["a) Qualquer objeto, de qualquer formato, projeta sombra circular","b) A esfera é o único corpo que projeta sombra circular em qualquer posição","c) A Lua só pode receber sombras de corpos maiores que ela","d) A sombra circular prova que a Terra está em movimento"],correct:1,hint:"Um disco também projeta sombra circular, mas só numa posição. O que a esfera tem de diferente?",explanation:"A esfera projeta sombra circular em qualquer posição, e é isso que a observação constante do eclipse lunar revela. A alternativa a) é falsa: um cubo projeta sombra quadrada."},
+{module:"Módulo 27",part:1,question:"No experimento de Eratóstenes, ao meio-dia do solstício de verão, o poço de Siena ficava totalmente iluminado e as colunas de Alexandria projetavam sombra. Isso acontece porque:",options:["a) A Terra é plana e o Sol estava mais próximo de Siena","b) A superfície da Terra é curva, então os raios incidem perpendicularmente em Siena e inclinados em Alexandria","c) As colunas de Alexandria eram feitas de material transparente","d) A água do poço funcionava como espelho e refletia toda a luz"],correct:1,hint:"Se a Terra fosse plana e os raios fossem paralelos, a mesma cena seria vista nas duas cidades. A diferença revela o quê?",explanation:"A curvatura faz os raios paralelos do Sol atingirem as duas cidades com inclinações diferentes. É justamente essa diferença que permitiu calcular a circunferência."},
+{module:"Módulo 27",part:2,question:"Leia o trecho: 'Quando um navio se afasta do porto, ele desaparece aos poucos: primeiro o casco, depois o corpo e por último o mastro. Se a Terra fosse plana, ele apenas ficaria menor, inteiro.' Essa observação é uma evidência da:",options:["a) Refração da luz na atmosfera","b) Esfericidade da Terra","c) Rotação da Terra","d) Translação da Terra"],correct:1,hint:"O navio não encolhe por inteiro: ele é escondido por algo. O que pode esconder a parte de baixo de um objeto?",explanation:"O casco é ocultado pela curvatura do planeta, o que evidencia a esfericidade. Refração na atmosfera poderia distorcer a imagem, mas não esconderia o casco primeiro."},
+{module:"Módulo 27",part:1,question:"A primeira fotografia do planeta inteiro, tirada pela Apollo 17, foi obtida em:",options:["a) 1492, na viagem de Colombo","b) 1519, na circum-navegação de Magalhães","c) 1862, com a escala de Snellen","d) 1972, pela equipe da Apollo 17"],correct:3,hint:"Fotografar o planeta inteiro só foi possível depois de sair da atmosfera. Pense em que século isso aconteceu.",explanation:"A foto foi tirada em 7 de dezembro de 1972. As datas de 1492 e 1519 são das navegações, e 1862 é da escala optométrica de Snellen."},
+{module:"Módulo 27",part:1,question:"A forma da Terra é chamada de geoide porque:",options:["a) É uma esfera perfeita, sem nenhuma irregularidade","b) É quase esférica, levemente achatada nos polos e com irregularidades","c) Tem formato de elipse, como a órbita que descreve","d) É plana nas regiões polares e curva no equador"],correct:1,hint:"Geoide não é o mesmo que esfera perfeita. A palavra indica algo parecido com a forma da Terra, mas não exato.",explanation:"Geoide é quase esférico, achatado nos polos e com irregularidades na superfície. Esfera perfeita é uma simplificação usada no estudo inicial."},
+{module:"Módulo 27",part:2,question:"Leia o trecho: 'Aragorn conta que viajou até regiões distantes, onde as estrelas são estranhas, diferentes das que ele conhecia.' Essa fala sugere que o mundo de Tolkien é esférico porque:",options:["a) Em um mundo plano, o céu seria sempre igual em qualquer lugar","b) As estrelas só podem ser vistas em planetas esféricos","c) A mudança do céu prova que o mundo gira em torno do Sol","d) Em mundos esféricos as estrelas ficam mais próximas do observador"],correct:0,hint:"Se o chão fosse plano, o que você veria ao caminhar para longe? O céu mudaria?",explanation:"A curvatura impede ver o mesmo céu de pontos distantes, e é isso que explica as estrelas diferentes. A mudança do céu não diz nada sobre girar em torno do Sol."},
+{module:"Módulo 27",part:1,question:"Os primeiros pensadores a propor e consolidar a ideia da esfericidade da Terra, na Grécia Antiga, foram:",options:["a) Ptolomeu e Copérnico","b) Newton e Galileu","c) Pitágoras, Platão e Aristóteles","d) Eratóstenes e Strabo"],correct:2,hint:"Um deles propôs a teoria das esferas no século VI a.C.; os outros dois consolidaram a ideia no século IV a.C.",explanation:"Pitágoras propôs a teoria das esferas e Platão e Aristóteles a consolidaram. Eratóstenes e Strabo vieram depois, já com a ideia aceita, e contribuíram com medições e observações."},
+{module:"Módulo 28",part:1,question:"A causa principal das estações do ano na Terra é:",options:["a) A variação da distância entre a Terra e o Sol ao longo do ano","b) A inclinação do eixo da Terra combinada ao movimento de translação","c) A variação da quantidade de energia emitida pelo Sol a cada mês","d) O movimento de rotação da Terra em torno do próprio eixo"],correct:1,hint:"Se a distância fosse a causa, os dois hemisférios teriam a mesma estação ao mesmo tempo. Isso nunca acontece.",explanation:"A inclinação do eixo faz cada hemisfério receber insolação diferente ao longo da translação. A distância varia pouco e não explica estações opostas nos hemisférios."},
+{module:"Módulo 28",part:1,question:"O movimento aparente do Sol, que parece nascer no Leste e se pôr no Oeste, é consequência da rotação da Terra no sentido:",options:["a) De Leste para Oeste","b) De Oeste para Leste","c) Do Polo Norte para o Polo Sul","d) Do Polo Sul para o Polo Norte"],correct:1,hint:"O Sol parece ir de leste para oeste. Se a Terra girasse no mesmo sentido, o Sol pareceria ir para onde?",explanation:"A Terra gira de oeste para leste, e por isso o Sol parece percorrer o céu no sentido contrário. A alternativa a) descreve o movimento aparente, não o real."},
+{module:"Módulo 28",part:2,question:"Leia o trecho: 'Uma pessoa sentada em um trem que se move a 50 km/h observa pela janela as árvores passando rapidamente.' Sobre essa situação, é correto afirmar que a pessoa está em repouso em relação:",options:["a) Às árvores do lado de fora","b) Aos trilhos sob o trem","c) Ao chão do vagão onde está sentada","d) À estação que ficou para trás"],correct:2,hint:"Repouso significa não mudar de posição em relação ao referencial escolhido. Em relação a qual dessas coisas a pessoa não se desloca?",explanation:"Em relação ao chão do vagão a pessoa não muda de posição, então está em repouso. Em relação às árvores, aos trilhos e à estação, ela se move a 50 km/h."},
+{module:"Módulo 28",part:1,question:"O ano bissexto existe porque:",options:["a) A rotação da Terra dura 25 horas nos anos pares","b) A translação dura cerca de 365 dias e 6 horas, e as 6 horas somam um dia a cada 4 anos","c) A Lua leva 366 dias para dar uma volta completa na Terra","d) A Terra fica mais distante do Sol no afélio"],correct:1,hint:"Some as horas que sobram em quatro anos. Quanto dá?",explanation:"As 6 horas excedentes somam 24 horas em 4 anos, acrescentadas como 29 de fevereiro. A rotação tem duração fixa de cerca de 24 horas."},
+{module:"Módulo 28",part:1,question:"Quando é verão no Hemisfério Sul, no Hemisfério Norte é:",options:["a) Verão também, pois a Terra toda recebe mais luz","b) Inverno, porque os hemisférios recebem insolação diferente","c) Outono, porque as estações são sempre deslocadas em uma","d) Primavera, porque o eixo muda de inclinação a cada estação"],correct:1,hint:"As estações são opostas entre os hemisférios. Se um está inclinado para o Sol, o outro está como?",explanation:"Quando um hemisfério está inclinado em direção ao Sol, o outro está inclinado para longe, então as estações são opostas. O eixo não muda de inclinação ao longo do ano."},
+{module:"Módulo 28",part:2,question:"Leia o trecho: 'Em janeiro, a Terra está mais próxima do Sol, e é verão no Hemisfério Sul. Em julho, está mais distante, e é inverno no Hemisfério Sul.' Apesar disso, os cientistas afirmam que a distância não causa as estações porque:",options:["a) No mesmo momento, o Hemisfério Norte vive a estação oposta, o que a distância não explicaria","b) A órbita da Terra é um círculo perfeito, sem afélio nem periélio","c) O Sol emite mais energia quando a Terra está mais longe","d) A atmosfera impede que a distância influencie a temperatura"],correct:0,hint:"Se a distância fosse a causa, os dois hemisférios teriam a mesma estação ao mesmo tempo. Observe o que acontece de fato.",explanation:"A distância é a mesma para os dois hemisférios, mas as estações são opostas. Isso mostra que a causa é a inclinação do eixo, não a distância."},
+{module:"Módulo 28",part:1,question:"O modelo que colocava a Terra imóvel no centro do Universo, com os astros girando ao seu redor, foi formalizado por:",options:["a) Copérnico, no modelo heliocêntrico","b) Ptolomeu, no modelo geocêntrico","c) Newton, na lei da gravitação","d) Eratóstenes, no cálculo da circunferência"],correct:1,hint:"O nome do modelo vem do grego 'geo', que significa Terra.",explanation:"O geocentrismo foi formalizado por Ptolomeu no século II. Copérnico propôs o heliocentrismo, com o Sol no centro, em 1543."}
 ];
 
-var MODULE_NAMES = {
-25: "Módulo 25 — Fundamentos da Óptica",
-26: "Módulo 26 — Lentes, Visão e Ametropias",
-27: "Módulo 27 — A Forma da Terra",
-28: "Módulo 28 — Sol e Sombras"
-};
+const MODULES = ["Módulo 25","Módulo 26","Módulo 27","Módulo 28"];
+const CATEGORIES = ["Módulo 25","Módulo 26","Módulo 27","Módulo 28","Interpretação"];
+const store = window.skipStore("ciencias-quiz-progress", { errors: [] });
 
-var state = {
-mode: "full",
-order: [],
-pos: 0,
-answers: {},
-hintOpen: false
-};
+let order = QUESTIONS.map((_, i) => i);
+let idx = 0;
+let answers = {};
+let mode = "full";
+let answered = false;
+let selected = null;
 
-function $(id) { return document.getElementById(id); }
-
-function showScreen(id) {
-var screens = document.querySelectorAll(".screen");
-for (var i = 0; i < screens.length; i++) screens[i].classList.remove("active");
-$(id).classList.add("active");
-window.scrollTo(0, 0);
+function categoryOf(q) {
+  return q.part === 2 ? "Interpretação" : q.module;
 }
 
-function allIndexes() {
-var arr = [];
-for (var i = 0; i < QUESTIONS.length; i++) arr.push(i);
-return arr;
+function renderOptions(q) {
+  const box = document.getElementById("options-container");
+  box.innerHTML = "";
+  q.options.forEach((text, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn opt";
+    b.setAttribute("data-variant", "outline");
+    b.textContent = text;
+    b.addEventListener("click", () => selectOption(i));
+    box.appendChild(b);
+  });
 }
 
-function wrongIndexes() {
-var arr = [];
-for (var i = 0; i < QUESTIONS.length; i++) {
-if (state.answers[i] !== undefined && state.answers[i] !== QUESTIONS[i].correct) arr.push(i);
-}
-return arr;
-}
-
-function countCorrect(indexes) {
-var c = 0;
-for (var i = 0; i < indexes.length; i++) {
-var a = state.answers[indexes[i]];
-if (a !== undefined && a === QUESTIONS[indexes[i]].correct) c++;
-}
-return c;
-}
-
-function startQuiz() {
-state.mode = "full";
-state.order = allIndexes();
-state.pos = 0;
-state.answers = {};
-$("review-banner").classList.remove("show");
-showScreen("screen-quiz");
-renderQuestion();
+function loadQuestion() {
+  const q = QUESTIONS[order[idx]];
+  answered = false;
+  selected = null;
+  document.getElementById("module-tag").textContent = categoryOf(q);
+  document.getElementById("question-text").textContent = q.question;
+  document.getElementById("question-number").textContent = `Questão ${idx + 1} de ${order.length}`;
+  document.getElementById("progress-fill").style.width = (idx / order.length * 100) + "%";
+  document.getElementById("review-mode-tag").textContent = mode === "errors" ? "Refazendo erros" : "";
+  document.getElementById("hint-box").textContent = q.hint;
+  document.getElementById("hint-box").classList.remove("open");
+  document.getElementById("hint-toggle-btn").textContent = "💡 Precisa de uma dica?";
+  const fb = document.getElementById("feedback-box");
+  fb.className = "feedback";
+  fb.textContent = "";
+  renderOptions(q);
+  const next = document.getElementById("next-btn");
+  next.disabled = true;
+  next.textContent = idx === order.length - 1 ? "Ver resultado" : "Próxima";
+  updateScore();
 }
 
-function renderQuestion() {
-var total = state.order.length;
-var qIndex = state.order[state.pos];
-var q = QUESTIONS[qIndex];
-var answered = countCorrect(state.order);
-var answeredCount = 0;
-for (var i = 0; i < state.order.length; i++) {
-if (state.answers[state.order[i]] !== undefined) answeredCount++;
-}
-$("q-counter").textContent = "Questão " + (state.pos + 1) + " de " + total;
-$("q-score").textContent = answered + (answered === 1 ? " acerto" : " acertos");
-var pct = total > 0 ? (state.pos / total) * 100 : 0;
-$("q-progress").style.width = pct + "%";
-$("q-module").textContent = "Módulo " + q.module;
-$("q-statement").textContent = q.question;
-$("q-hint").textContent = q.hint;
-state.hintOpen = false;
-$("q-hint").classList.remove("open");
-var box = $("q-options");
-box.innerHTML = "";
-for (var j = 0; j < q.options.length; j++) {
-var b = document.createElement("button");
-b.type = "button";
-b.className = "opt";
-b.textContent = q.options[j];
-b.setAttribute("onclick", "selectOption(" + j + ")");
-box.appendChild(b);
-}
-$("q-feedback").className = "feedback";
-$("q-feedback").innerHTML = "";
-$("q-next-wrap").classList.remove("show");
-var isLast = state.pos === total - 1;
-$("q-next").textContent = isLast ? "Ver Resultado Final" : "Próxima Questão";
-}
-
-function selectOption(index) {
-var qIndex = state.order[state.pos];
-if (state.answers[qIndex] !== undefined) return;
-var q = QUESTIONS[qIndex];
-state.answers[qIndex] = index;
-var buttons = $("q-options").children;
-for (var i = 0; i < buttons.length; i++) {
-buttons[i].classList.add("locked");
-if (i === q.correct) buttons[i].classList.add("correct");
-}
-if (index !== q.correct) buttons[index].classList.add("wrong");
-var fb = $("q-feedback");
-if (index === q.correct) {
-fb.className = "feedback ok";
-fb.innerHTML = "<strong>✔ Resposta correta!</strong>" + escapeHtml(q.explanation);
-} else {
-fb.className = "feedback bad";
-fb.innerHTML = "<strong>✘ Não foi dessa vez.</strong>" + escapeHtml(q.explanation);
-}
-var score = countCorrect(state.order);
-$("q-score").textContent = score + (score === 1 ? " acerto" : " acertos");
-$("q-next-wrap").classList.add("show");
+function updateScore() {
+  const done = Object.keys(answers).length;
+  const right = Object.values(answers).filter(Boolean).length;
+  document.getElementById("score-text").textContent = `Acertos: ${right}/${done}`;
 }
 
 function toggleHint() {
-state.hintOpen = !state.hintOpen;
-if (state.hintOpen) $("q-hint").classList.add("open");
-else $("q-hint").classList.remove("open");
+  const box = document.getElementById("hint-box");
+  const open = box.classList.toggle("open");
+  document.getElementById("hint-toggle-btn").textContent = open ? "Ocultar dica" : "💡 Precisa de uma dica?";
 }
 
-function nextQuestion() {
-if (state.pos < state.order.length - 1) {
-state.pos++;
-renderQuestion();
-} else {
-showResult();
-}
-}
-
-function escapeHtml(s) {
-return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function messageFor(pct) {
-if (pct >= 85) return "Domínio do conteúdo! Você está muito preparado.";
-if (pct >= 65) return "Você está preparado. Revise os pontos que errou.";
-if (pct >= 45) return "Bom esforço! Há pontos importantes a revisar.";
-return "Vamos revisar com calma e tentar de novo. Você consegue!";
-}
-
-function moduleStats() {
-var stats = {};
-var mods = [25, 26, 27, 28];
-for (var m = 0; m < mods.length; m++) stats[mods[m]] = { ok: 0, total: 0 };
-for (var i = 0; i < QUESTIONS.length; i++) {
-var q = QUESTIONS[i];
-if (state.answers[i] === undefined) continue;
-stats[q.module].total++;
-if (state.answers[i] === q.correct) stats[q.module].ok++;
-}
-return stats;
+function selectOption(i) {
+  if (answered) return;
+  answered = true;
+  selected = i;
+  const qi = order[idx];
+  const q = QUESTIONS[qi];
+  const ok = i === q.correct;
+  answers[qi] = ok;
+  const btns = document.querySelectorAll("#options-container .opt");
+  btns.forEach((b, j) => {
+    if (j === q.correct) b.classList.add("correct");
+    else if (j === i) b.classList.add("wrong");
+    b.disabled = true;
+  });
+  const fb = document.getElementById("feedback-box");
+  fb.className = "feedback open " + (ok ? "ok" : "bad");
+  fb.innerHTML = `<strong>${ok ? "Correto!" : "Não foi dessa vez."}</strong> ${q.explanation}`;
+  document.getElementById("next-btn").disabled = false;
+  updateScore();
 }
 
-function showResult() {
-var all = allIndexes();
-var ok = countCorrect(all);
-var total = QUESTIONS.length;
-var pct = Math.round((ok / total) * 100);
-$("r-score").textContent = ok + "/" + total;
-$("r-pct").textContent = pct + "%";
-$("r-message").textContent = messageFor(pct);
-var stats = moduleStats();
-var html = "";
-var mods = [25, 26, 27, 28];
-for (var m = 0; m < mods.length; m++) {
-var s = stats[mods[m]];
-var p = s.total > 0 ? Math.round((s.ok / s.total) * 100) : 0;
-var bad = s.total > 0 && p < 60;
-html += '<div class="mod-row' + (bad ? ' mod-bad' : '') + '">';
-html += '<div class="mod-head"><span>Módulo ' + mods[m] + '</span><span>' + s.ok + '/' + s.total + ' acertos</span></div>';
-html += '<div class="mod-bar"><div style="width:' + p + '%"></div></div>';
-html += '</div>';
+function handleNextAction() {
+  if (!answered) return;
+  if (idx < order.length - 1) {
+    idx++;
+    loadQuestion();
+  } else {
+    showResults();
+  }
 }
-$("r-modules").innerHTML = html;
-showScreen("screen-result");
+
+function getErrors() {
+  return Object.keys(answers).filter(k => answers[k] === false).map(Number);
+}
+
+function showResults() {
+  document.getElementById("quiz-screen").hidden = true;
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("results-screen").hidden = false;
+  const total = order.length;
+  const right = Object.values(answers).filter(Boolean).length;
+  const pct = Math.round(right / total * 100);
+  document.getElementById("final-score").textContent = pct + "%";
+  document.getElementById("final-detail").textContent = `${right} acertos em ${total} questões`;
+  let msg;
+  if (pct >= 85) msg = "Sensacional! Você demonstrou domínio total sobre a matéria de Ciências do 6º Ano!";
+  else if (pct >= 65) msg = "Muito bom! Você está super preparado para mandar muito bem na prova!";
+  else if (pct >= 45) msg = "Bom esforço! Vale revisar os módulos em que errou e tentar novamente.";
+  else msg = "Não desanime! Revise o material com carinho e faça o quiz de novo.";
+  document.getElementById("final-message").textContent = msg;
+
+  const stats = {};
+  CATEGORIES.forEach(c => stats[c] = { total: 0, right: 0 });
+  order.forEach(qi => {
+    const c = categoryOf(QUESTIONS[qi]);
+    stats[c].total++;
+    if (answers[qi]) stats[c].right++;
+  });
+  const worst = Math.min(...CATEGORIES.filter(c => stats[c].total).map(c => stats[c].right / stats[c].total));
+  const box = document.getElementById("module-summary-box");
+  box.innerHTML = "";
+  CATEGORIES.forEach(c => {
+    if (!stats[c].total) return;
+    const s = stats[c];
+    const ratio = s.right / s.total;
+    const weak = ratio === worst && ratio < 1;
+    const row = document.createElement("div");
+    row.className = "stack gap-1";
+    row.innerHTML = `
+      <div class="row between text-sm"><span class="font-medium">${c}${weak ? ' <span class="badge" data-variant="destructive">Pior desempenho</span>' : ""}</span><span class="mono">${s.right}/${s.total}</span></div>
+      <div class="mod-bar"><span class="${weak ? "weak" : ""}" style="width:${Math.round(ratio * 100)}%"></span></div>`;
+    box.appendChild(row);
+  });
+
+  store.set({ errors: getErrors(), lastScore: pct, at: new Date().toISOString() });
+  document.getElementById("btn-redo-errors").disabled = getErrors().length === 0;
+  document.getElementById("btn-redo-errors-2").disabled = getErrors().length === 0;
 }
 
 function showReview() {
-var wrong = wrongIndexes();
-var html = "";
-if (wrong.length === 0) {
-html = '<p class="empty">Você não errou nenhuma questão. Parabéns!</p>';
-} else {
-for (var i = 0; i < wrong.length; i++) {
-var idx = wrong[i];
-var q = QUESTIONS[idx];
-var mine = state.answers[idx];
-html += '<div class="review-item">';
-html += '<span class="pill-mod">Questão ' + (idx + 1) + ' · Módulo ' + q.module + '</span>';
-html += '<p class="statement" style="margin:10px 0;">' + escapeHtml(q.question) + '</p>';
-html += '<div class="label lab-bad">Sua resposta</div>';
-html += '<div class="ans ans-bad">' + escapeHtml(q.options[mine]) + '</div>';
-html += '<div class="label lab-ok">Resposta correta</div>';
-html += '<div class="ans ans-ok">' + escapeHtml(q.options[q.correct]) + '</div>';
-html += '<div class="label" style="color:#3c4a50;">Por quê</div>';
-html += '<div class="why">' + escapeHtml(q.explanation) + '</div>';
-html += '</div>';
-}
-}
-$("rv-list").innerHTML = html;
-$("rv-sub").textContent = wrong.length + (wrong.length === 1 ? " questão errada" : " questões erradas") + ", na ordem original.";
-showScreen("screen-review");
-}
-
-function retryWrong() {
-var wrong = wrongIndexes();
-if (wrong.length === 0) {
-window.skipUI && skipUI.toast("Você não tem erros para refazer.", { type: "success" });
-return;
-}
-state.mode = "review";
-state.order = wrong;
-state.pos = 0;
-state.answers = {};
-$("review-banner").classList.add("show");
-showScreen("screen-quiz");
-renderQuestion();
+  document.getElementById("results-screen").hidden = true;
+  document.getElementById("review-screen").hidden = false;
+  const errs = getErrors();
+  document.getElementById("review-sub").textContent =
+    errs.length ? `${errs.length} questão(ões) para revisar` : "Você não errou nenhuma questão.";
+  const list = document.getElementById("review-list");
+  list.innerHTML = "";
+  if (!errs.length) {
+    list.innerHTML = `<div class="panel p-4 text-sm">Nada a revisar. Excelente trabalho!</div>`;
+    return;
+  }
+  errs.forEach(qi => {
+    const q = QUESTIONS[qi];
+    const card = document.createElement("div");
+    card.className = "panel p-4 review-item";
+    card.innerHTML = `
+      <div class="text-xs muted mb-1">${categoryOf(q)}</div>
+      <p class="font-medium m-0 mb-2">${q.question}</p>
+      <div class="alert mb-2" data-variant="destructive"><div>Sua resposta: ${q.options[answerIndexFor(qi)] || "—"}</div></div>
+      <div class="alert mb-2"><div><strong>Resposta certa:</strong> ${q.options[q.correct]}</div></div>
+      <p class="text-sm m-0">${q.explanation}</p>`;
+    list.appendChild(card);
+  });
 }
 
-function restartFull() {
-startQuiz();
+const chosen = {};
+function answerIndexFor(qi) { return chosen[qi] ?? 0; }
+
+function backToResults() {
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("results-screen").hidden = false;
 }
 
-function resetQuiz() {
-state.mode = "full";
-state.order = [];
-state.pos = 0;
-state.answers = {};
-$("review-banner").classList.remove("show");
-showScreen("screen-start");
+function startReviewErrors() {
+  const errs = getErrors();
+  if (!errs.length) return;
+  mode = "errors";
+  order = errs;
+  idx = 0;
+  answers = {};
+  document.getElementById("results-screen").hidden = true;
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("quiz-screen").hidden = false;
+  loadQuestion();
+  window.skipUI.toast(`Refazendo ${errs.length} questão(ões) com erro`);
 }
 
-function backToResult() {
-showResult();
+function startFullQuiz() {
+  mode = "full";
+  order = QUESTIONS.map((_, i) => i);
+  idx = 0;
+  answers = {};
+  document.getElementById("results-screen").hidden = true;
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("quiz-screen").hidden = false;
+  loadQuestion();
 }
 
-function copyResult() {
-var ok = countCorrect(allIndexes());
-var text = "Desafio de Ciências — 6º Ano: " + ok + "/" + QUESTIONS.length + " acertos (" + Math.round(ok / QUESTIONS.length * 100) + "%).";
-if (navigator.clipboard && navigator.clipboard.writeText) {
-navigator.clipboard.writeText(text).then(function () {
-window.skipUI && skipUI.toast("Resultado copiado!", { type: "success" });
-}, function () {
-window.skipUI && skipUI.toast(text);
+function restartQuiz() {
+  startFullQuiz();
+  window.skipUI.toast("Quiz reiniciado. Boa sorte!");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btn-review").addEventListener("click", showReview);
+  document.getElementById("btn-back-results").addEventListener("click", backToResults);
+  document.getElementById("btn-redo-errors").addEventListener("click", startReviewErrors);
+  document.getElementById("btn-redo-errors-2").addEventListener("click", startReviewErrors);
+  document.getElementById("btn-restart").addEventListener("click", restartQuiz);
+
+  loadQuestion();
 });
-} else {
-window.skipUI && skipUI.toast(text);
-}
-}
 </script>
 </body>
 </html>
