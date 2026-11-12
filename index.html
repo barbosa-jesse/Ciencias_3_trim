@@ -1315,4 +1315,77 @@ function showResults() {
 
 function showReview() {
   document.getElementById("results-screen").hidden = true;
-  document.getElementById("review-screen").hidden = fals
+  document.getElementById("review-screen").hidden = false;
+  const errs = getErrors();
+  document.getElementById("review-sub").textContent =
+    errs.length ? `${errs.length} questão(ões) para revisar` : "Você não errou nenhuma questão.";
+  const list = document.getElementById("review-list");
+  list.innerHTML = "";
+  if (!errs.length) {
+    list.innerHTML = `<div class="panel p-4 text-sm">Nada a revisar. Excelente trabalho!</div>`;
+    return;
+  }
+  errs.forEach(qi => {
+    const q = QUESTIONS[qi];
+    const card = document.createElement("div");
+    card.className = "panel p-4 review-item";
+    card.innerHTML = `
+      <div class="text-xs muted mb-1">${categoryOf(q)}</div>
+      <p class="font-medium m-0 mb-2">${q.question}</p>
+      <div class="alert mb-2" data-variant="destructive"><div>Sua resposta: ${q.options[answerIndexFor(qi)] || "—"}</div></div>
+      <div class="alert mb-2"><div><strong>Resposta certa:</strong> ${q.options[q.correct]}</div></div>
+      <p class="text-sm m-0">${q.explanation}</p>`;
+    list.appendChild(card);
+  });
+}
+
+const chosen = {};
+function answerIndexFor(qi) { return chosen[qi] ?? 0; }
+
+function backToResults() {
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("results-screen").hidden = false;
+}
+
+function startReviewErrors() {
+  const errs = getErrors();
+  if (!errs.length) return;
+  mode = "errors";
+  order = errs;
+  idx = 0;
+  answers = {};
+  document.getElementById("results-screen").hidden = true;
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("quiz-screen").hidden = false;
+  loadQuestion();
+  window.skipUI.toast(`Refazendo ${errs.length} questão(ões) com erro`);
+}
+
+function startFullQuiz() {
+  mode = "full";
+  order = QUESTIONS.map((_, i) => i);
+  idx = 0;
+  answers = {};
+  document.getElementById("results-screen").hidden = true;
+  document.getElementById("review-screen").hidden = true;
+  document.getElementById("quiz-screen").hidden = false;
+  loadQuestion();
+}
+
+function restartQuiz() {
+  startFullQuiz();
+  window.skipUI.toast("Quiz reiniciado. Boa sorte!");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btn-review").addEventListener("click", showReview);
+  document.getElementById("btn-back-results").addEventListener("click", backToResults);
+  document.getElementById("btn-redo-errors").addEventListener("click", startReviewErrors);
+  document.getElementById("btn-redo-errors-2").addEventListener("click", startReviewErrors);
+  document.getElementById("btn-restart").addEventListener("click", restartQuiz);
+
+  loadQuestion();
+});
+</script>
+</body>
+</html>
